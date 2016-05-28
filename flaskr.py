@@ -95,7 +95,6 @@ def add_entries():
 	if file and allowed_file(file.filename):
 		filename = secure_filename(file.filename)
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
-		return redirect(url_for('uploaded_file',filename=filename))
 	flash('New entry was successfully posted')
 	return redirect(url_for('show_entries'))
 
@@ -144,6 +143,6 @@ def login():
 
 @app.route('/logout')
 def logout():
-	session.pop('logged_in',None)
+	session.pop('user_id',None)
 	flash('You were logged out')
 	return redirect(url_for('public_entries'))
