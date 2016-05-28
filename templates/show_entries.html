@@ -1,21 +1,25 @@
 {% extends "layout.html" %}
 {% block body %}
-	{% if session.logged_in %}
-		<form action="{{url_for('add_entries')}}" method="post" class="add-entry">
+	{% if g.user %}
+		<form action="{{url_for('add_entries')}}" method="post" class="add-entry" enctype="multipart/form-data">
 			<dl>
 				<dt>Title:</dt>
 				<dd><input type="text" name="title" size="30"></dd>
 				<dt>Text:</dt>
 				<dd><textarea type="text" name="text" rows="5" cols="40"></textarea></dd>
 				<input type="submit" value="share!">
+				<input type="file" name="file">
 			</dl>
 		</form>
 	{% endif %}
 	<ul class="entries">
 		{% for entry in entries %}
-			<li><h2>{{entry.title}}</h2>{{entry.text|safe}}</li>
+			<li>
+				<h2>{{entry.title}}</h2>{{entry.text|safe}}
+				<p class="user_message">--<a href="#">{{entry.author_id}} {{entry.username}}</a></p>
+			</li>
 		{% else %}
-			<li><em>Unbelievable.  No entries here so far</em></li>
+			<li><em>Unbelievable. No entries here so far</em></li>
 		{% endfor %}
 	</ul>
 {% endblock %}
